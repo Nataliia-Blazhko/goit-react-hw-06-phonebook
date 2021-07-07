@@ -1,5 +1,7 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { deleteContact } from '../../redux/phonebook/phonebook-actions';
 
 export class ContactListItem extends Component {
   render() {
@@ -18,6 +20,19 @@ export class ContactListItem extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteContact: id => dispatch(deleteContact(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactListItem);
+
 ContactListItem.propTypes = {
   name: PropTypes.string,
   number: PropTypes.string,

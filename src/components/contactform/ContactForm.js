@@ -1,27 +1,43 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addContact } from '../../redux/phonebook/phonebook-actions';
+import { v4 as uuid } from 'uuid';
 
 export class ContactForm extends Component {
   state = {
-    name: "",
-    number: "",
+    name: '',
+    number: '',
   };
 
-  handleInput = (event) => {
+  addContact = contact => {
+    if (this.props.contacts.find(person => person.name === contact.name)) {
+      alert(`${contact.name} is already in contacts`);
+      return;
+    }
+    if (this.props.contacts.find(person => person.number === contact.number)) {
+      alert(`${contact.number} is already in contacts`);
+      return;
+    }
+    contact.id = uuid();
+    this.props.addContact(contact);
+  };
+
+  handleInput = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
   clearForm = () => {
-    this.setState({ name: "", number: "" });
+    this.setState({ name: '', number: '' });
   };
 
   render() {
     return (
       <div className="container">
         <form
-          onSubmit={(e) => {
+          onSubmit={e => {
             e.preventDefault();
-            this.props.addContact(this.state);
+            this.addContact(this.state);
             this.clearForm();
           }}
         >
@@ -58,4 +74,16 @@ export class ContactForm extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    contacts: state.phonebook.contacts,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    addContact: contact => dispatch(addContact(contact)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 ContactForm.propTypes = { addContact: PropTypes.func };

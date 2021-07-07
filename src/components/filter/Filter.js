@@ -1,5 +1,7 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { handleFilter } from '../../redux/phonebook/phonebook-actions';
 
 export class Filter extends Component {
   render() {
@@ -15,6 +17,18 @@ export class Filter extends Component {
     );
   }
 }
-Filter.propTypes = { filter: PropTypes.string, handleFilter: PropTypes.func };
+const mapStateToProps = state => {
+  return {
+    filter: state.phonebook.filter,
+  };
+};
 
-export default Filter;
+const mapDispatchToProps = dispatch => {
+  return {
+    handleFilter: event => dispatch(handleFilter(event.target.value)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+
+Filter.propTypes = { filter: PropTypes.string, handleFilter: PropTypes.func };
