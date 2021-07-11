@@ -21,6 +21,7 @@ export class ContactForm extends Component {
     }
     contact.id = uuid();
     this.props.addContact(contact);
+    this.clearForm();
   };
 
   handleInput = event => {

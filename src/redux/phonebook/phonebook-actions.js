@@ -1,19 +1,7 @@
-import * as actions from './phonebook_types';
-export const addContact = contact => {
-  return {
-    type: actions.ADD_CONTACT,
-    payload: contact,
-  };
-};
+import { createAction } from '@reduxjs/toolkit';
 
-export const deleteContact = id => ({
-  type: actions.DELETE_CONTACT,
-  payload: id,
-});
+export const addContact = createAction('phonebook/addContact');
 
-export const handleFilter = filter => {
-  return {
-    type: actions.HANDLE_FILTER,
-    payload: filter,
-  };
-};
+export const deleteContact = createAction('phonebook/deleteContact');
+
+export const handleFilter = createAction('phonebook/handleFilter');
